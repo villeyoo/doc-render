@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "DocRender - Document Viewer",
+  "version": "1.0.0",
+  "description": "View Word documents (.docx) directly in browser without downloading heavy office software",
+
+  "permissions": [
+    "downloads",
+    "storage",
+    "unlimitedStorage",
+    "alarms"
+  ],
+
+  "background": {
+    "service_worker": "src/background/index.ts",
+    "type": "module"
+  },
+
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
+  },
+
+  "action": {
+    "default_popup": "src/popup/index.html",
+    "default_title": "DocRender"
+  }
+}
