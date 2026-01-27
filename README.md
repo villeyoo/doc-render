@@ -19,8 +19,9 @@ Opening a single `.docx` file often means:
 * installing large office software, or
 * uploading private documents to cloud services.
 * installing large office software (4+ GB), or
-- waiting forever on slow connections, or
-- uploading private documents to cloud services
+* waiting forever on slow connections, or
+* uploading private documents to cloud services
+
 DocRender exists to remove that friction.
 It provides a fast, local way to preview documents when you only need to see the content not modify it.
 
