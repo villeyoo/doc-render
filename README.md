@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # DocRender Fast Local DOCX Preview for Chrome
 DocRender is a Chrome extension that allows you to preview `.docx` files quickly and locally, directly in your browser.
 
@@ -113,6 +112,3 @@ Possible future improvements:
 * additional document formats
 * smarter layout heuristics
 * accessibility enhancements
-=======
-# doc-render
->>>>>>> 080c95b517e1c0318b510a04fa727630e96dfdb8
