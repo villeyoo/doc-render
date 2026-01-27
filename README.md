@@ -9,6 +9,8 @@ The document is processed entirely on your device.
 The goal of DocRender is simple:
 **open a Word document instantly to read it not to edit it.**
 
+![Demo](./docs/demo.gif)
+
 ## Supported format
 * `.docx` (classic `.doc` is intentionally not supported)
 
