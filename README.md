@@ -17,7 +17,7 @@ The goal of DocRender is simple:
 ## Why DocRender exists
 Opening a single `.docx` file often means:
 * installing large office software, or
-* uploading private documents to cloud services.
+* uploading private documents to cloud services, or
 * installing large office software (4+ GB), or
 * waiting forever on slow connections, or
 * uploading private documents to cloud services
