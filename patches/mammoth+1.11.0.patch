@@ -1,0 +1,91 @@
+diff --git a/node_modules/mammoth/lib/document-to-html.js b/node_modules/mammoth/lib/document-to-html.js
+index bd750f0..1b69a4a 100644
+--- a/node_modules/mammoth/lib/document-to-html.js
++++ b/node_modules/mammoth/lib/document-to-html.js
+@@ -133,6 +133,15 @@ function DocumentConversion(options, comments) {
+                 paths.push(path);
+             }
+         }
++        if (run.color) {
++            paths.push(htmlPaths.element("span", {class: "doc-color-" + run.color}, {fresh: false}));
++        }
++        if (run.font) {
++            var fontClass = normaliseFontClassName(run.font);
++            if (fontClass) {
++                paths.push(htmlPaths.element("span", {class: "doc-font-" + fontClass}, {fresh: false}));
++            }
++        }
+         if (run.isSmallCaps) {
+             paths.push(findHtmlPathForRunProperty("smallCaps"));
+         }
+@@ -173,6 +182,14 @@ function DocumentConversion(options, comments) {
+         return nodes();
+     }
+ 
++    function normaliseFontClassName(value) {
++        var normalized = value.toString().trim().toLowerCase()
++            .replace(/[^a-z0-9]+/g, "-")
++            .replace(/^-+|-+$/g, "");
++
++        return normalized || "default";
++    }
++
+     function findHtmlPathForRunProperty(elementType, defaultTagName) {
+         var path = findHtmlPath({type: elementType});
+         if (path) {
+diff --git a/node_modules/mammoth/lib/documents.js b/node_modules/mammoth/lib/documents.js
+index 2613a7a..b8cf8b2 100644
+--- a/node_modules/mammoth/lib/documents.js
++++ b/node_modules/mammoth/lib/documents.js
+@@ -65,6 +65,7 @@ function Run(children, properties) {
+         verticalAlignment: properties.verticalAlignment || verticalAlignment.baseline,
+         font: properties.font || null,
+         fontSize: properties.fontSize || null,
++        color: properties.color || null,
+         highlight: properties.highlight || null
+     };
+ }
+diff --git a/node_modules/mammoth/lib/docx/body-reader.js b/node_modules/mammoth/lib/docx/body-reader.js
+index 826424b..5226f9e 100644
+--- a/node_modules/mammoth/lib/docx/body-reader.js
++++ b/node_modules/mammoth/lib/docx/body-reader.js
+@@ -91,6 +91,7 @@ function BodyReader(options) {
+                 verticalAlignment: element.firstOrEmpty("w:vertAlign").attributes["w:val"],
+                 font: element.firstOrEmpty("w:rFonts").attributes["w:ascii"],
+                 fontSize: fontSize,
++                color: readColorValue(element.firstOrEmpty("w:color").attributes["w:val"]),
+                 isBold: readBooleanElement(element.first("w:b")),
+                 isUnderline: readUnderline(element.first("w:u")),
+                 isItalic: readBooleanElement(element.first("w:i")),
+@@ -132,6 +133,31 @@ function BodyReader(options) {
+         }
+     }
+ 
++    function readColorValue(value) {
++        if (!value) {
++            return null;
++        }
++
++        var normalized = value.toString().trim();
++        if (!normalized || normalized.toLowerCase() === "auto") {
++            return null;
++        }
++
++        normalized = normalized.replace(/^#/, "");
++
++        if (normalized.length === 3) {
++            normalized = normalized.split("").map(function(part) {
++                return part + part;
++            }).join("");
++        }
++
++        if (!/^[0-9a-fA-F]{6}$/.test(normalized)) {
++            return null;
++        }
++
++        return normalized.toUpperCase();
++    }
++
+     function readParagraphStyle(element) {
+         return readStyle(element, "w:pStyle", "Paragraph", styles.findParagraphStyleById);
+     }

@@ -25,6 +25,8 @@ export interface ParsedDocument {
   html: string
   warnings: string[]
   fontSizes?: number[]
+  colors?: string[]
+  fonts?: string[]
 }
 
 // Document state in viewer

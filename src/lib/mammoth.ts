@@ -1,5 +1,6 @@
 import mammoth from 'mammoth'
 import type { ParsedDocument } from '@/shared/types'
+import { normalizeHexColor } from '@/lib/docxStyles'
 
 type Alignment = 'left' | 'center' | 'right' | 'justify'
 
@@ -11,7 +12,9 @@ interface MammothParagraph {
 }
 
 interface MammothRun {
+  font?: string | null
   fontSize?: number | null
+  color?: string | null
   styleName?: string | null
   [key: string]: unknown
 }
@@ -111,6 +114,8 @@ const styleMap = [
 export async function convertDocxToHtml(arrayBuffer: ArrayBuffer): Promise<ParsedDocument> {
   try {
     const fontSizes = new Set<number>()
+    const colors = new Set<string>()
+    const fonts = new Map<string, string>()
     const transformDocument = (element: unknown) => {
       const alignTransform = transforms.paragraph((paragraph) => {
         const alignment = paragraph.alignment
@@ -137,7 +142,21 @@ export async function convertDocxToHtml(arrayBuffer: ArrayBuffer): Promise<Parse
         return paragraph
       })
 
-      const sizeTransform = transforms.run((run) => {
+      const runTransform = transforms.run((run) => {
+        if (run.font) {
+          const trimmed = run.font.trim()
+          if (trimmed) {
+            const key = trimmed.toLowerCase()
+            if (!fonts.has(key)) {
+              fonts.set(key, trimmed)
+            }
+          }
+        }
+
+        if (run.color) {
+          colors.add(normalizeHexColor(run.color))
+        }
+
         if (run.fontSize) {
           fontSizes.add(run.fontSize)
           if (!run.styleName) {
@@ -150,7 +169,7 @@ export async function convertDocxToHtml(arrayBuffer: ArrayBuffer): Promise<Parse
         return run
       })
 
-      return sizeTransform(alignTransform(element))
+      return runTransform(alignTransform(element))
     }
 
     const result = await mammoth.convertToHtml(
@@ -173,7 +192,9 @@ export async function convertDocxToHtml(arrayBuffer: ArrayBuffer): Promise<Parse
     return {
       html: result.value,
       warnings,
-      fontSizes: Array.from(fontSizes).sort((a, b) => a - b)
+      fontSizes: Array.from(fontSizes).sort((a, b) => a - b),
+      colors: Array.from(colors).sort(),
+      fonts: Array.from(fonts.values()).sort((a, b) => a.localeCompare(b))
     }
   } catch (error) {
     throw new Error(

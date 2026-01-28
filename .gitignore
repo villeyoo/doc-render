@@ -26,4 +26,8 @@ docs
 *.sln
 *.sw?
 .pem
+<<<<<<< HEAD
 .crx
+=======
+.crx
+>>>>>>> c2435d2 (Add tests, a11y, error boundaries, and docx color/font support)

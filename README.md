@@ -29,6 +29,7 @@ It provides a fast, local way to preview documents when you only need to see the
 * All documents are processed locally in the browser
 * No servers, no uploads, no tracking
 * Files never leave the users device
+* Optional: when Google Fonts support is enabled, the viewer may download font files from Google
 This makes DocRender suitable for:
 * confidential documents
 * corporate and educational environments
@@ -40,7 +41,7 @@ Instead, it follows a **semantic-first rendering approach** focused on readabili
 Rendering pipeline:
 * extract document structure (headings, paragraphs, lists, tables, images)
 * apply a custom post-processing layer
-* restore visual hierarchy (sizes, colors, layout) optimized for reading
+* restore visual hierarchy (sizes, colors, fonts, layout) optimized for reading
 
 This approach:
 * avoids the complexity of fully reimplementing Word
@@ -65,7 +66,8 @@ render(parsed.html)
 ## Supported features
 * Headings with restored visual hierarchy
 * Paragraph alignment and spacing
-* Text colors and emphasis
+* Text colors from the original document
+* Font families when available (Google Fonts fallback to system fonts)
 * Ordered and unordered lists
 * Tables
 * Images
@@ -77,7 +79,7 @@ DocRender is a **viewer**, not an editor.
 Some advanced Word features may be approximated:
 * floating images and complex text wrapping
 * deeply nested tables
-* custom fonts (system fonts are used instead)
+* fonts not available in Google Fonts (system fonts are used instead)
 * page headers, footers, and exact print layout
 These trade-offs are intentional to keep previews fast, readable, and fully local.
 
@@ -93,6 +95,9 @@ The workflow is optimized for speed:
 npm install
 npm run build
 ```
+
+Note: `npm install` applies a small patch to Mammoth via `patch-package`
+to preserve text colors and font family metadata.
 
 ```text
 chrome://extensions > Developer mode > Load unpacked > dist/

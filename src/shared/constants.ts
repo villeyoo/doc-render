@@ -13,3 +13,6 @@ export const STORE_NAME = 'documents'
 
 // Maximum document age (24 hours) for auto-cleanup
 export const MAX_DOCUMENT_AGE_MS = 24 * 60 * 60 * 1000
+
+// Load font faces from Google Fonts when available
+export const ENABLE_GOOGLE_FONTS = true
