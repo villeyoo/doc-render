@@ -1,125 +1,108 @@
-# DocRender Fast Local DOCX Preview for Chrome
-DocRender is a Chrome extension that allows you to preview `.docx` files quickly and locally, directly in your browser.
+# DocRender - Fast Local DOCX Preview for Chrome
 
-No uploads.
-No accounts.
-No office software required.
+Needed to open a `.docx`. No Word, no Google account, slow connection. Every option was either a 4GB install or uploading my file to someone's cloud.
 
-The document is processed entirely on your device.
-The goal of DocRender is simple:
-**open a Word document instantly to read it not to edit it.**
+So I built this. Drag a `.docx` into Chrome, read it, done. No uploads, no accounts, no installs. Everything stays on your device.
 
 ![Demo](./docs/demo.gif)
 
-## Supported format
-* `.docx` (classic `.doc` is intentionally not supported)
+## The problem (you've been there)
 
-## Why DocRender exists
-Opening a single `.docx` file often means:
-* installing large office software, or
-* uploading private documents to cloud services, or
-* installing large office software (4+ GB), or
-* waiting forever on slow connections, or
-* uploading private documents to cloud services
+Opening one Word file shouldn't mean:
+- installing a 4+ GB office suite you'll use once
+- uploading private/corporate stuff to cloud services
+- waiting forever on a slow connection for something that's already on your disk
 
-DocRender exists to remove that friction.
-It provides a fast, local way to preview documents when you only need to see the content not modify it.
+DocRender kills that. Open, read, close.
 
-## Privacy-first by design
-* All documents are processed locally in the browser
-* No servers, no uploads, no tracking
-* Files never leave the users device
-* Optional: when Google Fonts support is enabled, the viewer may download font files from Google
-This makes DocRender suitable for:
-* confidential documents
-* corporate and educational environments
-* quick previews without cloud access
+## How it works
 
-## Rendering approach
-DocRender does **not** try to replicate Microsoft Word pixel-perfectly.
-Instead, it follows a **semantic-first rendering approach** focused on readability.
-Rendering pipeline:
-* extract document structure (headings, paragraphs, lists, tables, images)
-* apply a custom post-processing layer
-* restore visual hierarchy (sizes, colors, fonts, layout) optimized for reading
-
-This approach:
-* avoids the complexity of fully reimplementing Word
-* keeps rendering fast and predictable
-* works well even for large documents
-In practice, the result is visually close to Google Docs while remaining fully local.
-
-## How it works (high-level)
-```text
-Download/Upload > Background stores ArrayBuffer in IndexedDB
-> Viewer requests by documentId
-> DOCX > HTML (mammoth) > DocumentViewer renders
+```
+.docx file > background parser > semantic HTML > styled viewer
 ```
 
-Core pipeline (simplified):
-```ts
-const doc = await getDocument(documentId)
-const parsed = await convertDocxToHtml(doc.data)
-render(parsed.html)
-```
+DocRender doesn't try to be Word. It does **semantic-first rendering**: extract structure, restore visual hierarchy (headings, fonts, colors, spacing), optimize for reading. Result looks close to Google Docs but fully local, fully private.
 
-## Supported features
-* Headings with restored visual hierarchy
-* Paragraph alignment and spacing
-* Text colors from the original document
-* Font families when available (Google Fonts fallback to system fonts)
-* Ordered and unordered lists
-* Tables
-* Images
-* Multi-column layouts (where possible)
-* Dark mode friendly rendering
+What renders well:
+- headings, paragraphs, alignment, spacing
+- text colors and font families (Google Fonts fallback)
+- ordered/unordered lists, tables, images
+- multi-column layouts, dark mode
 
-## Known limitations (intentional)
-DocRender is a **viewer**, not an editor.
-Some advanced Word features may be approximated:
-* floating images and complex text wrapping
-* deeply nested tables
-* fonts not available in Google Fonts (system fonts are used instead)
-* page headers, footers, and exact print layout
-These trade-offs are intentional to keep previews fast, readable, and fully local.
+What's intentionally skipped (viewer not editor):
+- floating images, complex text wrapping
+- page headers/footers, exact print layout
+- fonts not in Google Fonts (falls back to system)
+
+Deliberate trade-offs. Speed and privacy over pixel-perfect reproduction.
+
+## Privacy
+
+- all processing happens locally in the browser
+- no servers, no uploads, no tracking
+- files never leave your device
+- only external request: Google Fonts (optional)
+
+Works for confidential docs, corporate environments, air-gapped setups.
 
 ## Usage
-* Drag & drop a `.docx` file into the extension
-* Or open a file via the file picker
-* Recently opened documents are cached for quick access
-The workflow is optimized for speed:
-**open > read > close**
 
-## Quick start (local build)
+- drag and drop a `.docx`, or use the file picker
+- recent docs are cached for quick access
+- `.doc` intentionally not supported (legacy binary format, different beast)
+
+<details>
+<summary><b>Dev section</b></summary>
+
+### Quick start
+
 ```bash
-npm install
-npm run build
+npm install        # applies a mammoth patch via patch-package
+npm run build      #   (preserves text colors + font metadata)
 ```
 
-Note: `npm install` applies a small patch to Mammoth via `patch-package`
-to preserve text colors and font family metadata.
-
-```text
+```
 chrome://extensions > Developer mode > Load unpacked > dist/
 ```
 
-## Tech stack
-* TypeScript
-* Chrome Extension Manifest V3
-* Fully local file processing (no backend)
-* Semantic DOCX parsing with custom post-render styling
-* Modern UI with smooth animations
+### Architecture
 
-## Project focus
-This project demonstrates:
-* working with complex file formats in the browser
-* client-side performance and memory constraints
-* UX design for constrained environments (extension popup and viewer)
-* making pragmatic engineering trade-offs instead of overengineering
+```
+Download/Upload > Background stores ArrayBuffer in IndexedDB
+               > Viewer requests by documentId
+               > DOCX > HTML (mammoth + custom post-processing) > DocumentViewer renders
+```
+
+Core pipeline:
+```ts
+const doc = await getDocument(documentId);
+const parsed = await convertDocxToHtml(doc.data);
+render(parsed.html);
+```
+
+Mammoth does DOCX to HTML but out of the box it strips colors and font metadata. Patched it (`patch-package`) to preserve those. Custom post-processing layer then restores visual hierarchy that raw conversion loses.
+
+### Stack
+
+- TypeScript, Chrome Extension Manifest V3
+- Mammoth.js (patched) for DOCX parsing
+- custom post-render pipeline for semantic styling
+- IndexedDB for document caching
+- no backend, no runtime dependencies
+
+### What this project shows
+
+- parsing complex binary formats client-side under browser constraints
+- memory management in extension context (large files, no Node.js luxuries)
+- UX in constrained environments (popup + viewer inside an extension)
+- pragmatic trade-offs: shipping something useful vs overengineering a Word clone
+
+</details>
 
 ## Status
-The project is actively developed.
-Possible future improvements:
-* additional document formats
-* smarter layout heuristics
-* accessibility enhancements
+
+Actively developed. Roadmap: additional formats, smarter layout heuristics, accessibility.
+
+## License
+
+MIT
