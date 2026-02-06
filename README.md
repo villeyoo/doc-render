@@ -101,7 +101,7 @@ Mammoth does DOCX to HTML but out of the box it strips colors and font metadata.
 
 ## Status
 
-Actively developed. Roadmap: additional formats, smarter layout heuristics, accessibility.
+Maintained. Not actively adding features, but bugs get fixed and PRs are welcome.
 
 ## License
 
